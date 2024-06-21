@@ -1,20 +1,37 @@
-import { DrizzleAdapter } from '@auth/drizzle-adapter'
 import { SvelteKitAuth } from '@auth/sveltekit'
-import Google from '@auth/sveltekit/providers/google'
-import db from '$lib/server/db'
-import * as schema from '$lib/server/db/schema'
-
-function customTableFn(tableName: 'user' | 'account' | 'session', ..._: unknown[]) {
-  // user -> users, account -> accounts, etc.
-  const correctedTableName = `${tableName}s` as const
-  const table = schema[correctedTableName]
-  return table
-}
+import Credentials from '@auth/sveltekit/providers/credentials'
+import prisma from '$lib/server/db'
+import { credentialsSchema, saltAndHashPassword } from '$lib/password'
+import { PrismaAdapter } from '@auth/prisma-adapter'
 
 export const { handle, signIn, signOut } = SvelteKitAuth({
-  // @ts-expect-error - we need to pass a custom table function
-  adapter: DrizzleAdapter(db, customTableFn),
+  adapter: PrismaAdapter(prisma),
   trustHost: true,
-  providers: [Google],
+  providers: [
+    Credentials({
+      authorize: async (credentials) => {
+        let user = null
+
+        const { email, password } = credentialsSchema.parse(credentials)
+
+        const pwHash = saltAndHashPassword(password)
+        user = await prisma.user.findFirst({ where: { email, password: pwHash } })
+
+        if (!user) {
+          throw new Error('User not found.')
+        }
+
+        return user
+      },
+      credentials: {
+        email: {
+          type: 'string',
+        },
+        password: {
+          type: 'string',
+        },
+      },
+    }),
+  ],
   callbacks: { session: ({ session }) => session },
 })
