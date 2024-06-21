@@ -1,0 +1,16 @@
+version: '3.9'
+services:
+  db:
+    image: postgres
+    restart: always
+    shm_size: 128mb
+    environment:
+      POSTGRES_DB: budget-tracker
+      POSTGRES_USER: nanane
+      POSTGRES_PASSWORD: ffdxhx6fd84gd53g4fd6w84gdxx4gfd53g4xd5g341
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
