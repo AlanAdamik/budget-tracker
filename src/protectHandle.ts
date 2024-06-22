@@ -18,7 +18,7 @@ export default (async ({ event, resolve }) => {
   }
   if (!isProtected && user) {
     console.log(`${getClientIp()} ${route} failed because user`)
-    redirect(302, '/explore')
+    redirect(302, `/${user.id}`)
   }
   if (isProtected && !user) {
     console.log(`${getClientIp()} ${route} failed because no user`)

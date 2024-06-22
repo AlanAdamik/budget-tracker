@@ -13,6 +13,6 @@
 
 <main>
   <h1 class="flex items-center text-green-500">Welcome<Smile /></h1>
-  <button on:click={() => signIn('google')}>Sign In</button>
+  <button on:click={() => signIn('github')}>Sign In</button>
   <Button on:click={() => clicked++}>Clicked {clicked} time{clicked === 1 ? '' : 's'}</Button>
 </main>

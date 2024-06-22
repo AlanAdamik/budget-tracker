@@ -1,6 +1,6 @@
 import { protectedProcedure, router } from '../t'
 import { TRPCError } from '@trpc/server'
-import db from '$lib/server/db'
+import prisma from '$lib/server/db'
 import { z } from 'zod'
 
 export const userRouter = router({
@@ -8,9 +8,8 @@ export const userRouter = router({
     .input(z.object({ userId: z.string() }))
     .query(async ({ input, ctx }) => {
       ctx.session.user
-      const user = await db.query.users.findFirst({
-        columns: { email: false, emailVerified: false },
-        where: (user, { eq }) => eq(user.id, input.userId),
+      const user = await prisma.user.findFirst({
+        where: { id: input.userId },
       })
       if (!user) throw new TRPCError({ code: 'NOT_FOUND' })
       return user
