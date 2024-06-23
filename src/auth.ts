@@ -4,18 +4,18 @@ import prisma from '$lib/server/db'
 import { credentialsSchema, saltAndHashPassword } from '$lib/password'
 import { PrismaAdapter } from '@auth/prisma-adapter'
 import GitHub from '@auth/sveltekit/providers/github'
+import Google from '@auth/sveltekit/providers/google'
 
 export const { handle, signIn, signOut } = SvelteKitAuth({
   adapter: PrismaAdapter(prisma),
   trustHost: true,
   providers: [
     GitHub,
+    Google,
     Credentials({
       authorize: async (credentials) => {
         let user = null
-
         const { email, password } = credentialsSchema.parse(credentials)
-
         const pwHash = saltAndHashPassword(password)
         user = await prisma.user.findFirst({ where: { email, password: pwHash } })
 
