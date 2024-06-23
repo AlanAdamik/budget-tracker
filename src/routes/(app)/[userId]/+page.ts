@@ -1,5 +1,5 @@
 import { trpc } from '$lib/trpc/client'
-import { prefetchApi } from '$lib/utils.js'
+import { prefetchApi } from '$lib/utils'
 
 export async function load(event) {
   const { queryClient } = await event.parent()

@@ -7,6 +7,7 @@
     import Loader from "$lib/components/Loader.svelte"
   export let data
   const userQuery = trpc($page).user.default.createQuery({ userId: data.userId })
+  userQuery.subscribe(q => console.log(q.status, q.data));
 </script>
  
 <Loader query={userQuery} let:data={user}>

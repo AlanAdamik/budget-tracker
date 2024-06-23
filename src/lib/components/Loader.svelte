@@ -1,18 +1,24 @@
 <script lang="ts" generics="A">
     import type { CreateQueryResult } from "@tanstack/svelte-query"
-    export let query: CreateQueryResult<A, any>;
-    const { data, isLoading, isError, error, isSuccess} = $query;
 
     interface $$Slots {
         default: { data: A };
     }
+
+    type Q = CreateQueryResult<A, any>
+
+    export let query: Q
+    let { data, status, error } = $query
+    $: ({data, status, error} = $query)
 </script>
 
-{#if isLoading}
+{#if status == "pending"}
     <p>Loading...</p>
-{:else if isError}
+{:else if status == "error"}
     <p>Error: {error.message}</p>
-{:else if isSuccess && data}
+{:else if status == "success" && data !== undefined}
     <slot {data} />
+{:else}
+    <p>Error: data is undefined</p>
 {/if}
 
