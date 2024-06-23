@@ -1,4 +1,5 @@
 import { browser } from '$app/environment'
+import { QueryClient } from '@tanstack/svelte-query'
 import { type ClassValue, clsx } from 'clsx'
 import { cubicOut } from 'svelte/easing'
 import type { TransitionConfig } from 'svelte/transition'
@@ -100,4 +101,16 @@ export const flyAndScale = (
     },
     easing: cubicOut,
   }
+}
+
+export function getQueryClient() {
+  return new QueryClient({
+    defaultOptions: {
+      queries: {
+        enabled: browser,
+        refetchOnMount: false,
+        staleTime: Infinity,
+      },
+    },
+  })
 }

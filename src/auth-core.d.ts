@@ -1,4 +1,4 @@
-import type { UnsafeUser } from '$lib/server/db/schema'
+import type { UnsafeUser } from '$lib/server/db'
 
 declare module '@auth/sveltekit' {
   interface Session {

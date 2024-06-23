@@ -1,28 +1,28 @@
+import { REDIRECT_GUESTS } from '$lib/config'
 import { type Handle, redirect } from '@sveltejs/kit'
 
+// root folder is accessible to anyone (public)
+// (app) folder is accessible to authentified users (protected)
+
 export default (async ({ event, resolve }) => {
-  const route = event.route.id
-  const isDev = route?.startsWith('/dev')
-  const isApp = route?.startsWith('/(app)')
-  const isProtected = route?.startsWith('/(app)/(protected)')
-
-  if (isDev) return resolve(event)
-  if (isApp && !isProtected) return resolve(event)
-
-  console.log('Got session for checking auth in protectHandle')
-  const session = await event.locals.auth()
-  const user = session?.user
-
   function getClientIp() {
     return event.request.headers.get('cf-connecting-ip') || 'LOCALHOST'
   }
-  if (!isProtected && user) {
-    console.log(`${getClientIp()} ${route} failed because user`)
-    redirect(302, `/${user.id}`)
-  }
+
+  const route = event.route.id
+  const isProtected = route?.startsWith('/(app)')
+
+  if (!isProtected) return resolve(event)
+
+  console.log('Got session for checking auth in protectHandle', route)
+  const session = await event.locals.auth()
+  const user = session?.user
+
+  // protected routes need a user
   if (isProtected && !user) {
     console.log(`${getClientIp()} ${route} failed because no user`)
-    redirect(302, '/')
+    redirect(302, REDIRECT_GUESTS)
   }
+
   return resolve(event)
 }) satisfies Handle

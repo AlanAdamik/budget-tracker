@@ -1,9 +1,9 @@
 <script lang="ts">
-  import { signIn } from '@auth/sveltekit/client'
-  import { Button } from '$lib/components/ui/button'
+  import Header from '$lib/components/Header.svelte'
   import Smile from 'lucide-svelte/icons/smile'
+  import type { PageData } from './$types'
 
-  let clicked = 0
+  export let data: PageData
 </script>
 
 <svelte:head>
@@ -11,8 +11,11 @@
   <meta name="description" content="" />
 </svelte:head>
 
-<main>
-  <h1 class="flex items-center text-green-500">Welcome<Smile /></h1>
-  <button on:click={() => signIn('github')}>Sign In</button>
-  <Button on:click={() => clicked++}>Clicked {clicked} time{clicked === 1 ? '' : 's'}</Button>
-</main>
+<div class="flex min-h-screen flex-col">
+  <Header user={data?.session?.user} />
+  <div class="flex-1">
+    <main>
+      <h1 class="flex items-center text-green-500">Home page<Smile /></h1>
+    </main>
+  </div>
+</div>
