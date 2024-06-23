@@ -5,6 +5,7 @@
   import * as Avatar from "$lib/components/ui/avatar"
   import User from "lucide-svelte/icons/user"
   import Power from "lucide-svelte/icons/power"
+    import { goto } from "$app/navigation"
 
   export let user: UserType | undefined;
 </script>
@@ -24,10 +25,8 @@
       <DropdownMenu.Content class="w-56">
         <DropdownMenu.Label>My Account</DropdownMenu.Label>
         <DropdownMenu.Group>
-          <DropdownMenu.Item>
-            <User class="mr-2 h-4 w-4" />
-            <span>Profile</span>
-            <DropdownMenu.Shortcut>⇧⌘P</DropdownMenu.Shortcut>
+          <DropdownMenu.Item on:click={() => goto('/dashboard')}>
+            <span>Dashboard</span>
           </DropdownMenu.Item>
         </DropdownMenu.Group>
         <DropdownMenu.Separator />

@@ -12,7 +12,7 @@
 <QueryClientProvider client={queryClient}>
   <div class="flex min-h-screen flex-col">
     <Header user={data.session.user} />
-    <div class="flex-1">
+    <div class="flex-1 px-8">
       <slot />
     </div>
   </div>
