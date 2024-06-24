@@ -1,9 +1,9 @@
 <script lang="ts">
+  import type { LayoutData } from './$types'
   import { QueryClientProvider } from '@tanstack/svelte-query'
   import { SvelteQueryDevtools } from '@tanstack/svelte-query-devtools'
   import Header from '$lib/components/Header.svelte'
   import { getQueryClient } from '$lib/utils'
-  import type { LayoutData } from './$types'
   
   const queryClient = getQueryClient();
   export let data: LayoutData

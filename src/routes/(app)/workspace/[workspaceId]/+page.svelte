@@ -4,7 +4,7 @@
     import Loader from "$lib/components/Loader.svelte"
     import { trpc } from "$lib/trpc/client"
     export let data
-    const workspaceQuery = trpc($page).workspace.findOne.createQuery({ id: data.workspaceId })
+    const workspaceQuery = trpc($page).workspace.findOne.createQuery({ workspaceId: data.workspaceId })
 </script>
 
 <Loader query={workspaceQuery} let:data={workspace}>

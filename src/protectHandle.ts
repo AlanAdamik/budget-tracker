@@ -1,5 +1,5 @@
-import { REDIRECT_GUESTS } from '$lib/config'
 import { type Handle, redirect } from '@sveltejs/kit'
+import { REDIRECT_GUESTS } from '$lib/config'
 
 // root folder is accessible to anyone (public)
 // (app) folder is accessible to authentified users (protected)

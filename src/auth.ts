@@ -1,10 +1,10 @@
+import { PrismaAdapter } from '@auth/prisma-adapter'
 import { SvelteKitAuth } from '@auth/sveltekit'
 import Credentials from '@auth/sveltekit/providers/credentials'
-import prisma from '$lib/server/db'
-import { credentialsSchema, saltAndHashPassword } from '$lib/password'
-import { PrismaAdapter } from '@auth/prisma-adapter'
 import GitHub from '@auth/sveltekit/providers/github'
 import Google from '@auth/sveltekit/providers/google'
+import { credentialsSchema, saltAndHashPassword } from '$lib/password'
+import prisma from '$lib/server/db'
 
 export const { handle, signIn, signOut } = SvelteKitAuth({
   adapter: PrismaAdapter(prisma),

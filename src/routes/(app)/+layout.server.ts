@@ -1,5 +1,5 @@
-import { redirect } from '@sveltejs/kit'
 import type { LayoutServerLoad } from './$types'
+import { redirect } from '@sveltejs/kit'
 import { REDIRECT_GUESTS } from '$lib/config'
 
 export const load: LayoutServerLoad = async function (event) {

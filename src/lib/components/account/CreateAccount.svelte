@@ -21,12 +21,12 @@
     let currency: Currency = "EUR"
     
     let client = trpc($page);
-    let accountCreateMutation = client.account.create.createMutation();
+    let bankAccountCreateMutation = client.bankAccount.create.createMutation();
     let utils = client.createUtils();
 
     const handleCreateAccount = async () => {
-        $accountCreateMutation.mutateAsync({ name, workspaceId, bankName, currency }).then(() => {
-            utils.workspace.findOne.invalidate({ id: workspaceId });
+        $bankAccountCreateMutation.mutateAsync({ name, workspaceId, bankName, currency }).then(() => {
+            utils.workspace.findOne.invalidate({ workspaceId: workspaceId });
             utils.workspace.findAllAccessible.invalidate();
         })
     }

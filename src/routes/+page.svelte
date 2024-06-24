@@ -1,7 +1,7 @@
 <script lang="ts">
+  import type { PageData } from './$types'
   import Header from '$lib/components/Header.svelte'
   import Smile from 'lucide-svelte/icons/smile'
-  import type { PageData } from './$types'
 
   export let data: PageData
 </script>
