@@ -1,9 +1,11 @@
 import { router } from '../t'
-import { userRouter } from './user'
+import { accountRouter } from './account'
+import { workspaceRouter } from './workspace'
 import type { inferRouterInputs, inferRouterOutputs } from '@trpc/server'
 
 export const appRouter = router({
-  user: userRouter,
+  workspace: workspaceRouter,
+  account: accountRouter,
 })
 
 export type Router = typeof appRouter
