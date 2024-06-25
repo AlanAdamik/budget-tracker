@@ -1,9 +1,9 @@
 <script lang="ts">
-  import CurrencySelect from '$lib/components/business/common/CurrencySelect.svelte'
+  import CurrencySelect from '$lib/business/common/CurrencySelect.svelte'
   import Button from '$lib/components/ui/button/button.svelte'
   import Input from '$lib/components/ui/input/input.svelte'
   import { page } from '$app/stores'
-  import BankNameSelect from '$lib/components/business/common/BankNameSelect.svelte'
+  import BankNameSelect from '$lib/business/common/BankNameSelect.svelte'
   import * as Dialog from '$lib/components/ui/dialog'
   import { trpc } from '$lib/trpc/client'
   import type { BankName } from '$lib/trpc/types/bank-name'

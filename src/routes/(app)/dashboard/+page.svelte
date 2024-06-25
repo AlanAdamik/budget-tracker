@@ -1,7 +1,7 @@
 <script lang="ts">
   import { goto } from '$app/navigation'
   import { page } from '$app/stores'
-  import CreateWorkspace from '$lib/components/business/workspace/CreateWorkspace.svelte'
+  import CreateWorkspace from '$lib/business/workspace/CreateWorkspace.svelte'
   import Loader from '$lib/components/Loader.svelte'
   import Button from '$lib/components/ui/button/button.svelte'
   import { trpc } from '$lib/trpc/client'

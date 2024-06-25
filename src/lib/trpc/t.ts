@@ -22,7 +22,7 @@ const auth = middleware(async ({ ctx, next }) => {
 export const publicProcedure = t.procedure
 export const protectedProcedure = t.procedure.use(auth)
 
-export const workspaceProcedure = protectedProcedure
+export const workspaceMemberProcedure = protectedProcedure
   .input(z.object({ workspaceId: z.string().cuid() }))
   .use(async ({ ctx, input, next }) => {
     const workspace = await getWorkspaceIfPossible(ctx.session.user.id, input.workspaceId)
@@ -34,7 +34,15 @@ export const workspaceProcedure = protectedProcedure
     }
     return next({ ctx: { ...ctx, workspace } })
   })
-
+export const workspaceOwnerProcedure = workspaceMemberProcedure.use(async ({ ctx, next }) => {
+  if (['OWNER', 'ADMIN'].includes(ctx.workspace.memberships[0]?.role || 'UNDEFINED')) {
+    throw new TRPCError({
+      code: 'UNAUTHORIZED',
+      message: "Either the workspace doesn't exist or you don't have access to it",
+    })
+  }
+  return next({ ctx })
+})
 export const bankAccountProcedure = protectedProcedure
   .input(z.object({ bankAccountId: z.string().cuid() }))
   .use(async ({ ctx, input, next }) => {

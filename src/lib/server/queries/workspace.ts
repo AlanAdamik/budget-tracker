@@ -10,5 +10,12 @@ export function getWorkspaceIfPossible(userId: string, workspaceId: string) {
         },
       },
     },
+    include: {
+      memberships: {
+        where: {
+          userId,
+        },
+      },
+    },
   })
 }

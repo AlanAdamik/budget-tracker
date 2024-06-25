@@ -14,12 +14,16 @@
   const createCategoryMutation = client.category.create.createMutation()
 
   let name: string = ''
+  let monthlyBudget: string = '100'
+
   const handleCreateCategory = async () => {
-    await $createCategoryMutation.mutateAsync({ workspaceId, name }).then(() => {
-      toast(`Category "${name}" created`)
-      utils.workspace.findOne.invalidate({ workspaceId })
-      utils.workspace.findAllAccessible.invalidate()
-    })
+    await $createCategoryMutation
+      .mutateAsync({ workspaceId, name, monthlyBudget: parseFloat(monthlyBudget) })
+      .then(() => {
+        toast(`Category "${name}" created`)
+        utils.workspace.findOne.invalidate({ workspaceId })
+        utils.workspace.findAllAccessible.invalidate()
+      })
   }
 </script>
 
@@ -34,6 +38,7 @@
     </Dialog.Header>
 
     <Input placeholder="Category name" type="text" bind:value={name} />
+    <Input placeholder="Allowance" type="number" bind:value={monthlyBudget} />
 
     <Dialog.Footer>
       <Dialog.Close asChild let:builder>

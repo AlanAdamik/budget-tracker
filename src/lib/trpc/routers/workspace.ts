@@ -1,8 +1,15 @@
-import { protectedProcedure, router, workspaceProcedure } from '../t'
+import { protectedProcedure, router, workspaceMemberProcedure, workspaceOwnerProcedure } from '../t'
 import prisma from '$lib/server/db'
 import { z } from 'zod'
 
 export const workspaceRouter = router({
+  delete: workspaceOwnerProcedure.mutation(async ({ ctx }) =>
+    prisma.workspace.delete({
+      where: {
+        id: ctx.workspace.id,
+      },
+    })
+  ),
   findAllAccessible: protectedProcedure.query(async ({ ctx }) => {
     return await prisma.workspace.findMany({
       where: {
@@ -14,7 +21,7 @@ export const workspaceRouter = router({
       },
     })
   }),
-  findOne: workspaceProcedure.query(async ({ ctx }) => {
+  findOne: workspaceMemberProcedure.query(async ({ ctx }) => {
     return prisma.workspace.findFirstOrThrow({
       where: {
         id: ctx.workspace.id,

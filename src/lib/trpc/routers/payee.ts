@@ -1,9 +1,18 @@
-import { router, workspaceProcedure } from '../t'
+import { router, workspaceMemberProcedure } from '../t'
 import prisma from '$lib/server/db'
 import { z } from 'zod'
 
 export const payeeRouter = router({
-  create: workspaceProcedure
+  delete: workspaceMemberProcedure
+    .input(z.object({ payeeId: z.string().cuid() }))
+    .mutation(async ({ input }) =>
+      prisma.payee.delete({
+        where: {
+          id: input.payeeId,
+        },
+      })
+    ),
+  create: workspaceMemberProcedure
     .input(
       z.object({
         name: z.string().min(1),

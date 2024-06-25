@@ -1,6 +1,6 @@
 import type { PageServerLoad } from './$types'
 import { error } from '@sveltejs/kit'
-import { getAccessToken } from '$lib/tink/client'
+import { getAccessToken } from '$lib/server/tink'
 
 export const load: PageServerLoad = async (event) => {
   const authorizationCode = event.url.searchParams.get('code')

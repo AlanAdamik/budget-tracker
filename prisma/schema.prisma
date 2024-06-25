@@ -43,10 +43,11 @@ model Payee {
 }
 
 model Category {
-  id    String  @id @default(cuid())
-  name  String
-  color String?
-  icon  String?
+  id            String  @id @default(cuid())
+  name          String
+  monthlyBudget Float   @default(0)
+  color         String?
+  icon          String?
 
   lines BankAccountLine[]
   rules Rule[]

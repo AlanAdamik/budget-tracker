@@ -1,9 +1,18 @@
-import { router, workspaceProcedure } from '../t'
+import { router, workspaceMemberProcedure } from '../t'
 import prisma from '$lib/server/db'
 import { z } from 'zod'
 
 export const ruleRouter = router({
-  create: workspaceProcedure
+  delete: workspaceMemberProcedure
+    .input(z.object({ ruleId: z.string().cuid() }))
+    .mutation(async ({ input }) =>
+      prisma.rule.delete({
+        where: {
+          id: input.ruleId,
+        },
+      })
+    ),
+  create: workspaceMemberProcedure
     .input(
       z.object({
         needle: z.string().min(1),

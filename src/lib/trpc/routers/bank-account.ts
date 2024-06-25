@@ -1,18 +1,18 @@
-import { bankAccountProcedure, router, workspaceProcedure } from '../t'
+import { bankAccountProcedure, router, workspaceMemberProcedure } from '../t'
 import { bankNameSchema } from '../types/bank-name'
 import { currencySchema } from '../types/currency'
 import prisma from '$lib/server/db'
 import { z } from 'zod'
 
 export const bankAccountRouter = router({
-  delete: bankAccountProcedure.mutation(async ({ ctx }) => {
-    return prisma.bankAccount.delete({
+  delete: bankAccountProcedure.mutation(async ({ ctx }) =>
+    prisma.bankAccount.delete({
       where: {
         id: ctx.bankAccount.id,
       },
     })
-  }),
-  create: workspaceProcedure
+  ),
+  create: workspaceMemberProcedure
     .input(
       z.object({
         name: z.string().min(1),
