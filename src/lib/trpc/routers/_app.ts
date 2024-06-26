@@ -1,6 +1,7 @@
 import { router } from '../t'
 import { bankAccountRouter } from './bank-account'
 import { bankAccountLineRouter } from './bank-account-line'
+import { budgetRouter } from './budget'
 import { categoryRouter } from './category'
 import { payeeRouter } from './payee'
 import { ruleRouter } from './rule'
@@ -14,6 +15,7 @@ export const appRouter = router({
   payee: payeeRouter,
   rule: ruleRouter,
   bankAccountLine: bankAccountLineRouter,
+  budget: budgetRouter,
 })
 
 export type Router = typeof appRouter

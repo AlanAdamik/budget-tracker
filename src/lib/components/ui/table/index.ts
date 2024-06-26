@@ -7,6 +7,17 @@ import Head from './table-head.svelte'
 import Header from './table-header.svelte'
 import Row from './table-row.svelte'
 
+export default {
+  Root,
+  Body,
+  Caption,
+  Cell,
+  Footer,
+  Head,
+  Header,
+  Row,
+}
+
 export {
   Body,
   Caption,

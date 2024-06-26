@@ -30,6 +30,11 @@ export const workspaceRouter = router({
         categories: true,
         payees: true,
         rules: true,
+        budgets: {
+          include: {
+            budgetCategories: true,
+          },
+        },
         bankAccounts: {
           include: {
             lines: {

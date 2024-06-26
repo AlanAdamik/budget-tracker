@@ -3,11 +3,11 @@
   import { cn } from '$lib/utils.js'
   import type { HTMLInputAttributes } from 'svelte/elements'
 
-  type $$Props = HTMLInputAttributes
+  type $$Props = Omit<HTMLInputAttributes, 'type'> & { files?: FileList }
   type $$Events = InputEvents
 
   let className: $$Props['class'] = undefined
-  export let value: $$Props['value'] = undefined
+  export let files: FileList | undefined = undefined
   export { className as class }
 
   // Workaround for https://github.com/sveltejs/svelte/issues/9305
@@ -21,7 +21,8 @@
     className
   )}
   {readonly}
-  bind:value
+  type="file"
+  bind:files
   on:blur
   on:change
   on:click

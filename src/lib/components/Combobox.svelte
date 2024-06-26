@@ -9,6 +9,7 @@
   import { tick } from 'svelte'
 
   export let value: T
+  export let placeholder: string = 'Select an option'
   export let options: {
     label: string
     id: T
@@ -25,6 +26,8 @@
       document.getElementById(triggerId)?.focus()
     })
   }
+
+  $: selectedOption = options.find((o) => o.id === value) || { label: placeholder }
 </script>
 
 <Popover.Root bind:open let:ids>
@@ -35,11 +38,11 @@
       role="combobox"
       variant="outline"
     >
-      {value}
+      {selectedOption.label}
       <ChevronsUpDown class="ml-2 h-4 w-4 shrink-0 opacity-50" />
     </Button>
   </Popover.Trigger>
-  <Popover.Content align="center" avoidCollisions={false} side="top">
+  <Popover.Content align="center" avoidCollisions={false} side="bottom">
     <Command.Root>
       <Command.Input placeholder="Search Bank..." />
       <Command.List>

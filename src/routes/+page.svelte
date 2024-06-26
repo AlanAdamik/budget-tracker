@@ -1,6 +1,7 @@
 <script lang="ts">
+  import Sidebar from '$lib/business/Sidebar.svelte'
+  import Separator from '$lib/components/ui/separator/separator.svelte'
   import type { PageData } from './$types'
-  import Header from '$lib/components/Header.svelte'
   import Smile from 'lucide-svelte/icons/smile'
 
   export let data: PageData
@@ -11,11 +12,10 @@
   <meta name="description" content="" />
 </svelte:head>
 
-<div class="flex min-h-screen flex-col">
-  <Header user={data?.session?.user} />
-  <div class="flex-1">
-    <main>
-      <h1 class="flex items-center text-green-500">Home page<Smile /></h1>
-    </main>
+<div class="flex min-h-screen">
+  <Sidebar class="w-48" user={data.session?.user} />
+  <Separator class="h-screen" orientation="vertical" />
+  <div class="col-span-11 flex-1 px-8 sm:col-span-10">
+    <slot />
   </div>
 </div>

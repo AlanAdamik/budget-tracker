@@ -1,6 +1,13 @@
-import { bankAccountProcedure, router } from '../t'
+import { bankAccountProcedure, router, workspaceMemberProcedure } from '../t'
 import prisma from '$lib/server/db'
 import { z } from 'zod'
+import type { Prisma } from '@prisma/client'
+
+const include: Prisma.BankAccountLineInclude = {
+  bankAccount: true,
+  category: true,
+  payee: true,
+}
 
 const transactionInputSchema = z.object({
   date: z.string().min(1),
@@ -11,6 +18,16 @@ const transactionInputSchema = z.object({
 })
 
 export const bankAccountLineRouter = router({
+  fromWorkspace: workspaceMemberProcedure.query(async ({ ctx }) =>
+    prisma.bankAccountLine.findMany({
+      where: {
+        bankAccount: {
+          workspaceId: ctx.workspace.id,
+        },
+      },
+      include,
+    })
+  ),
   createMany: bankAccountProcedure
     .input(
       z.object({

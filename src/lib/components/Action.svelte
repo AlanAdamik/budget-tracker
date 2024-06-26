@@ -11,7 +11,7 @@
   export { className as class }
 </script>
 
-<Button variant="secondary" class={cn(className, 'h-full w-full')} on:click on:keydown>
+<Button variant="outline" class={cn(className, 'h-full w-full')} on:click on:keydown>
   {#if icon}
     <Icon name={icon} />
   {/if}

@@ -1,20 +1,15 @@
 <script lang="ts">
   import type { LayoutData } from './$types'
-  import { QueryClientProvider } from '@tanstack/svelte-query'
-  import { SvelteQueryDevtools } from '@tanstack/svelte-query-devtools'
-  import Header from '$lib/components/Header.svelte'
-  import { getQueryClient } from '$lib/utils'
-  
-  const queryClient = getQueryClient();
+  import Sidebar from '$lib/business/Sidebar.svelte'
+  import { Separator } from '$lib/components/ui/separator'
+
   export let data: LayoutData
 </script>
 
-<QueryClientProvider client={queryClient}>
-  <div class="flex min-h-screen flex-col">
-    <Header user={data.session.user} />
-    <div class="flex-1 px-8">
-      <slot />
-    </div>
+<div class="flex min-h-screen">
+  <Sidebar class="w-48" user={data.session.user} />
+  <Separator class="h-screen" orientation="vertical" />
+  <div class="col-span-11 flex-1 px-8 py-4 sm:col-span-10">
+    <slot />
   </div>
-  <SvelteQueryDevtools />
-</QueryClientProvider>
+</div>

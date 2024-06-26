@@ -5,6 +5,13 @@ import prisma from '$lib/server/db'
 import { z } from 'zod'
 
 export const bankAccountRouter = router({
+  fromWorkspace: workspaceMemberProcedure.query(async ({ ctx }) =>
+    prisma.bankAccount.findMany({
+      where: {
+        workspaceId: ctx.workspace.id,
+      },
+    })
+  ),
   delete: bankAccountProcedure.mutation(async ({ ctx }) =>
     prisma.bankAccount.delete({
       where: {

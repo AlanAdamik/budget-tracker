@@ -3,4 +3,4 @@
   export let name: string
 </script>
 
-<svelte:component this={icons[name]} {...$$props} />
+<svelte:component this={icons[name]} class="h-4 w-4" {...$$props} />

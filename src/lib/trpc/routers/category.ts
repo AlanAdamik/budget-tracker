@@ -16,14 +16,12 @@ export const categoryRouter = router({
     .input(
       z.object({
         name: z.string().min(1),
-        monthlyBudget: z.number(),
       })
     )
     .mutation(async ({ ctx, input }) => {
       return prisma.category.create({
         data: {
           name: input.name,
-          monthlyBudget: input.monthlyBudget,
           workspace: {
             connect: {
               id: ctx.workspace.id,
