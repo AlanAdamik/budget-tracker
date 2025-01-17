@@ -1,21 +1,20 @@
-<script lang="ts">
-  import Sidebar from '$lib/business/Sidebar.svelte'
-  import Separator from '$lib/components/ui/separator/separator.svelte'
-  import type { PageData } from './$types'
-  import Smile from 'lucide-svelte/icons/smile'
+<script>
+  import { SignIn, SignOut } from '@auth/sveltekit/components'
+  import { page } from '$app/stores'
+  import { onMount } from 'svelte'
+  import { REDIRECT_AUTHENTIFIED_USER } from '$lib/config'
+  import { goto } from '$app/navigation'
 
-  export let data: PageData
+  onMount(() => {
+    if ($page.data.session) {
+      goto(REDIRECT_AUTHENTIFIED_USER)
+    }
+  })
 </script>
 
-<svelte:head>
-  <title>Home | Sveltekit</title>
-  <meta name="description" content="" />
-</svelte:head>
-
-<div class="flex min-h-screen">
-  <Sidebar class="w-48" user={data.session?.user} />
-  <Separator class="h-screen" orientation="vertical" />
-  <div class="col-span-11 flex-1 px-8 sm:col-span-10">
-    <slot />
-  </div>
+<h1>SvelteKit Auth Example</h1>
+<div>
+  <SignIn>
+    <div slot="submitButton" class="buttonPrimary">Sign in</div>
+  </SignIn>
 </div>

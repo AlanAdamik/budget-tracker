@@ -6,6 +6,9 @@ import { defineConfig } from 'vite'
 
 export default defineConfig({
   plugins: [enhancedImages(), sveltekit()],
+  optimizeDeps: {
+    exclude: ['@mapbox/node-pre-gyp'],
+  },
   css: {
     postcss: {
       plugins: [tailwindcss(), autoprefixer()],

@@ -13,125 +13,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum WorkspaceRole {
-  OWNER
-  ADMIN
-  MEMBER
-}
-
-model Rule {
-  id     String @id @default(cuid())
-  needle String
-
-  payeeId String?
-  payee   Payee?  @relation(fields: [payeeId], references: [id], onDelete: SetNull)
-
-  workspaceId String
-  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
-
-  categoryId String
-  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-}
-
-model Payee {
-  id   String @id @default(cuid())
-  name String
-
-  rules Rule[]
-  lines BankAccountLine[]
-
-  workspaceId String
-  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
-}
-
-model Budget {
-  id   String @id @default(cuid())
-  name String
-
-  budgetCategories CategoryBudget[]
-
-  workspaceId String
-  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
-}
-
-model CategoryBudget {
-  amount Float
-
-  categoryId String
-  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  budgetId   String
-  budget     Budget   @relation(fields: [budgetId], references: [id], onDelete: Cascade)
-
-  @@id([categoryId, budgetId])
-}
-
-model Category {
-  id    String  @id @default(cuid())
-  name  String
-  color String?
-  icon  String?
-
-  lines           BankAccountLine[]
-  rules           Rule[]
-  categoryBudgets CategoryBudget[]
-
-  workspaceId String
-  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
-}
-
-model BankAccountLine {
-  id     String   @id @default(cuid())
-  amount Float
-  date   DateTime @db.Date
-  label  String
-
-  bankAccountId String
-  bankAccount   BankAccount @relation(fields: [bankAccountId], references: [id], onDelete: Cascade)
-
-  categoryId String?
-  category   Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
-
-  payeeId String?
-  payee   Payee?  @relation(fields: [payeeId], references: [id], onDelete: SetNull)
-}
-
-model BankAccount {
-  id       String @id @default(cuid())
-  name     String
-  bankName String
-  currency String
-
-  lines BankAccountLine[]
-
-  workspaceId String
-  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
-}
-
-model Workspace {
-  id   String @id @default(cuid())
-  name String
-
-  memberships  WorkspaceMembership[]
-  bankAccounts BankAccount[]
-  rules        Rule[]
-  categories   Category[]
-  payees       Payee[]
-  budgets      Budget[]
-}
-
-model WorkspaceMembership {
-  id        String   @id @default(cuid())
-  role      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  userId String
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  workspaceId String
-  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
-}
-
 model User {
   id            String    @id @default(cuid())
   name          String?
@@ -142,32 +23,7 @@ model User {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
-  memberships   WorkspaceMembership[]
-  accounts      Account[]
-  sessions      Session[]
-  Authenticator Authenticator[]
-}
-
-// AUTH.JS SCHEMA
-model Account {
-  userId            String
-  type              String
-  provider          String
-  providerAccountId String
-  refresh_token     String?
-  access_token      String?
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String?
-  session_state     String?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@id([provider, providerAccountId])
+  sessions Session[]
 }
 
 model Session {
@@ -178,28 +34,4 @@ model Session {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-}
-
-model VerificationToken {
-  identifier String
-  token      String
-  expires    DateTime
-
-  @@id([identifier, token])
-}
-
-// Optional for WebAuthn support
-model Authenticator {
-  credentialID         String  @unique
-  userId               String
-  providerAccountId    String
-  credentialPublicKey  String
-  counter              Int
-  credentialDeviceType String
-  credentialBackedUp   Boolean
-  transports           String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@id([userId, credentialID])
 }
